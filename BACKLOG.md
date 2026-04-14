@@ -1,0 +1,220 @@
+# Maestro - Backlog Completo
+
+> Atualizado: 2026-04-13 | Versao: v0.4 | 22 Sprints executados | 40+ features
+
+## Implementado
+
+### Infra & Backend
+- [x] SQLite persistencia (teams, msgs, peers, tasks, artifacts, costs)
+- [x] Rich stream parser (Write/Edit→artifacts, SendMessage→P2P, TodoWrite→tasks, Bash→cmds, Thinking→inline)
+- [x] Cost tracking por agente (tokens + USD)
+- [x] P2P relay (shared context auto-update on agent exit)
+- [x] sendMessage re-spawn (envia msg para team parado)
+- [x] Artifact dedup na API
+- [x] `--dangerously-skip-permissions` (agentes escrevem codigo)
+- [x] Race mode API (comparar modelos em paralelo)
+- [x] Deploy scripts (Oracle + Cloudflare + PM2)
+
+### Canvas & Visualizacao
+- [x] React Flow (draggable nodes, agent cards com avatar/status/model)
+- [x] Nodes centralizados no viewport (fitView)
+- [x] Edge animation (animated quando P2P > 0)
+- [x] MiniMap para times grandes (5+)
+- [x] Controls (zoom, fit)
+
+### UI/UX
+- [x] Welcome Screen com template gallery
+- [x] Template-as-Teaching (5 templates com why + estimate)
+- [x] Agent identity cards (avatar colorido, role, model badge)
+- [x] Auto-expand active team
+- [x] Timeline unificada com filter chips (Tudo/Texto/Tools/P2P/Tasks/Artifacts)
+- [x] Resizable panels (react-resizable-panels)
+- [x] Right panel toggle (Artifacts/Tasks/Race)
+- [x] Sidebar history split (Ativos/Historico)
+- [x] Msg count per team na sidebar
+
+### Visual & Feedback
+- [x] Markdown rendering (remark-gfm - tabelas, code blocks, bold, listas)
+- [x] Inline thinking display (Brain icon, purple theme, colapsavel)
+- [x] Tool call collapse animado (chevron + framer-motion)
+- [x] Typing indicators (pulsing dots)
+- [x] Glassmorphism panels (backdrop-blur)
+- [x] Motion variants library (centralized animations)
+- [x] Status pulse CSS
+- [x] Custom scrollbar
+- [x] Theme toggle (light/dark/system) sem FOUC
+
+### Artifact Management
+- [x] ArtifactExplorer com preview inline
+- [x] Multi-tab file preview (open multiple, switch, close)
+- [x] Markdown preview renderizado
+- [x] Syntax detection por extensao
+- [x] Skeleton loading
+
+### Components
+- [x] CostBadge (hover breakdown per agent)
+- [x] ApprovalBanner (HITL checkpoint component)
+- [x] RaceView (compare models side-by-side)
+- [x] WelcomeScreen (template gallery)
+- [x] ThemeToggle (3 states)
+
+---
+
+## Backlog (Priorizado)
+
+### P0 - Critico: UX de Criacao de Agentes e Times
+> O form atual na sidebar e apertado, pouco visual, e nao escala. Precisa ser repensado completamente.
+
+- [ ] **Team Creation Wizard (Modal/Page)** - Substituir form inline da sidebar por modal full-screen ou pagina dedicada:
+  - Step 1: Escolher template ou "from scratch" (cards visuais grandes, nao chips)
+  - Step 2: Configurar agentes (drag-and-drop, cards com avatar/role/model/provider)
+  - Step 3: Definir tarefa (prompt area grande com sugestoes contextuais)
+  - Step 4: Guardrails (budget, timeout, approval gates)
+  - Step 5: Review e lancar
+  - Inspiracao: Lovable onboarding, Google AI Studio agent builder, Atoms.dev team setup
+
+- [ ] **Agent Builder visual** - Criar/editar agentes individuais com:
+  - Avatar picker (emoji ou upload)
+  - Role com sugestoes (autocomplete de roles comuns)
+  - Provider selector visual (cards com status installed/not installed, auto-detected)
+  - Model selector com badges de preco/velocidade/qualidade
+  - System prompt editor com syntax highlight
+  - Capabilities toggle (code, files, web, bash, mcp)
+  - Preview do agent card final
+
+- [ ] **Provider discovery UI** - Pagina/modal que mostra:
+  - Agents instalados no sistema (auto-detected: Claude Code, OpenClaw, Ollama)
+  - Status: installed/version ou install instructions
+  - Capacidades de cada provider
+  - One-click configuration
+  - Inspiracao: AionUI skills marketplace + auto-detection
+
+- [ ] **Team templates gallery (full page)** - Substituir chips por:
+  - Cards grandes com screenshot/preview do workflow
+  - Descricao longa (template-as-teaching: por que, quando, para quem)
+  - Estimativa de custo e tempo
+  - Rating de runs anteriores
+  - "Use this template" button que abre o wizard pre-configurado
+  - Categorias: Development, Product, Review, Debug, Research, Creative
+
+- [ ] **Drag-and-drop team composer** - Canvas visual para montar times:
+  - Arrastar agentes de um catalogo para o canvas
+  - Conectar agentes com edges (definir fluxo de comunicacao)
+  - Inline config de cada agente (clicar no node)
+  - Preview do custo estimado em tempo real
+  - Inspiracao: Google AI Studio ADK visual builder
+
+### P1 - Alto Impacto, Viabilidade Alta
+- [ ] **Deploy em producao** - Oracle VM + Cloudflare Tunnel em maestro.melhor.dev (scripts prontos)
+- [ ] **Approval gates ativo** - integrar ApprovalBanner ao stream (detectar acoes criticas, pausar, pedir confirmacao)
+- [ ] **Agent-to-agent messaging real** - backend relay via stdin (agente A termina, resultado injetado no agente B)
+- [ ] **Scheduled tasks** - cron para rodar teams em horarios fixos (inspirado AionUI)
+- [ ] **Error recovery (Try to Fix)** - detectar erros e oferecer botao de retry automatico (Lovable pattern)
+
+### P2 - Alto Impacto, Complexidade Media
+- [ ] **Unified MCP config** - configurar MCP servers uma vez, sincronizar para todos agentes (AionUI pattern)
+- [ ] **Plan deduplication** - evitar steps redundantes no output multi-agente
+- [ ] **Office output** - gerar .pptx, .docx, .xlsx direto dos agentes (AionUI/OfficeCLI)
+- [ ] **Remote access WebUI** - acessar via QR code ou URL externa (AionUI pattern)
+- [ ] **Notification system** - push/toast quando agente precisa de input ou terminou (Lovable pattern)
+
+### P3 - Diferencial Competitivo
+- [ ] **3 Modes (Agent/Plan/Visual)** - Lovable pattern, cada mode com UX otimizada
+- [ ] **Race mode visual** - side-by-side diff de resultados, ranking automatico
+- [ ] **DESIGN.md manifest** - design system legivel por maquina (Google Stitch pattern)
+- [ ] **Infinite canvas** - zoom semantico, minimap, node grouping (Google Stitch)
+- [ ] **Skills marketplace** - catalogo de skills/templates instaláveis (AionUI)
+- [ ] **Annotation mode** - highlight UI e descrever mudanca (Google AI Studio)
+
+### P4 - Plataforma / Ecossistema
+- [ ] **Multi-user collaboration** - multiplos humanos no mesmo run (Atoms.dev)
+- [ ] **Agent marketplace** - catalogo publico de agentes pre-configurados
+- [ ] **Sandboxing per agent** - Docker/nsjail por agente
+- [ ] **Branching de execucao** - fork de run para testar instrucao alternativa
+- [ ] **Webhooks e integracoes** - Slack, GitHub, Notion
+- [ ] **Governance / compliance** - audit trails, EU AI Act (PRODUCT_VISION)
+- [ ] **i18n** - interface em PT/EN/ES
+
+---
+
+## Benchmarks vs Concorrentes
+
+### vs AionUI
+| Feature | AionUI | Maestro | Gap |
+|---------|--------|---------|-----|
+| Multi-agent support | 12+ agents | Claude Code only | AionUI +++ |
+| Inline thinking | ✅ | ✅ | Par |
+| File preview | Multi-tab, 30+ formats | Multi-tab, MD+code | AionUI + |
+| Office output | .pptx/.docx/.xlsx | Nao | AionUI +++ |
+| MCP unified | ✅ | Nao | AionUI + |
+| Local-first | SQLite | SQLite | Par |
+| Skills marketplace | ✅ | Templates only | AionUI + |
+| Remote access | WebUI/QR/Telegram | Nao | AionUI + |
+| Scheduled tasks | ✅ | Nao | AionUI + |
+| React Flow canvas | Nao | ✅ | Maestro + |
+| Race mode | Nao | ✅ | Maestro + |
+| Cost tracking | Nao | ✅ | Maestro + |
+| Template-as-Teaching | Nao | ✅ | Maestro + |
+
+### vs Atoms.dev
+| Feature | Atoms.dev | Maestro | Gap |
+|---------|-----------|---------|-----|
+| Live preview | Functional preview | Artifact preview | Atoms + |
+| Race mode | ✅ (variants) | ✅ (models) | Par |
+| Conductor metaphor | ✅ | ✅ (Maestro) | Par |
+| Approval gates | ✅ | Component ready | Atoms + |
+| Named agents | ✅ | ✅ (avatars+roles) | Par |
+| GitHub integration | ✅ | Nao | Atoms + |
+| Deploy pipeline | ✅ (dev/prod) | Scripts only | Atoms + |
+
+### vs Lovable
+| Feature | Lovable | Maestro | Gap |
+|---------|---------|---------|-----|
+| 3 modes (Agent/Plan/Visual) | ✅ | Nao | Lovable +++ |
+| Try to Fix | ✅ | Component ready | Lovable + |
+| Design system ownership | ✅ (.lovable/) | Nao | Lovable + |
+| Sandbox preview | ✅ | Nao | Lovable + |
+| Progressive disclosure | ✅ | Templates only | Lovable + |
+| Cost tracking | Nao | ✅ | Maestro + |
+| Multi-agent | Basic | Full team orchestration | Maestro +++ |
+| Canvas visualization | Nao | React Flow | Maestro + |
+
+### vs Mission Control (builderz-labs)
+> Mission Control e a referencia enterprise para orquestracao de agentes. 32 paineis, Kanban workflow, observabilidade 4 camadas, seguranca hardened.
+
+| Feature | Mission Control | Maestro | Gap | Prioridade |
+|---------|----------------|---------|-----|------------|
+| Kanban task workflow | ✅ (7 stages) | Tasks basico | MC +++ | P1 |
+| Agent fleet management | ✅ (15+ agents) | Team-level | MC ++ | P2 |
+| Cost dashboards (Recharts) | ✅ (per-model trends) | CostBadge simples | MC ++ | P1 |
+| Security/trust scoring | ✅ (0-100, secret detection) | Nao | MC +++ | P3 |
+| Heartbeat monitoring | ✅ (wake schedules) | Status por evento | MC + | P2 |
+| Framework agnostic | ✅ (CrewAI, LangGraph, etc.) | Claude Code + auto-discover | MC ++ | P1 |
+| Scheduled execution | ✅ (cron + quota-aware) | Nao | MC ++ | P1 |
+| Evaluation framework | ✅ (4 camadas) | Nao | MC +++ | P3 |
+| Audit trails | ✅ (completo) | Nao | MC ++ | P2 |
+| RBAC / multi-user | ✅ (viewer/operator/admin) | Nao | MC ++ | P3 |
+| Docker sandboxing | ✅ (read-only filesystem) | Nao | MC ++ | P4 |
+| WebSocket real-time | ✅ (WS + SSE) | SSE only | MC + | P2 |
+| Pipeline orchestration | ✅ | Race mode only | MC ++ | P2 |
+| Team creation wizard | Nao | ✅ (5-step visual) | Maestro ++ | - |
+| Template gallery | Nao | ✅ (5 templates) | Maestro ++ | - |
+| React Flow canvas | Nao | ✅ (draggable nodes) | Maestro ++ | - |
+| Inline thinking display | Nao | ✅ (Brain icon) | Maestro + | - |
+| Markdown rendering | Nao | ✅ (remark-gfm) | Maestro ++ | - |
+| Welcome onboarding | Nao | ✅ (template gallery) | Maestro + | - |
+| Race mode | Nao | ✅ (compare models) | Maestro + | - |
+
+**Gaps criticos do Maestro vs Mission Control:**
+1. **Kanban workflow** - MC tem 7 stages (Planning→Inbox→Assigned→InProgress→Testing→Review→Done). Maestro tem tasks flat sem stages.
+2. **Observabilidade enterprise** - MC tem 4 camadas de avaliacao (output, trace, component, drift). Maestro so tem output.
+3. **Seguranca** - MC tem trust scoring, secret detection, RBAC. Maestro tem zero seguranca.
+4. **Scheduled execution** - MC tem cron + quota-aware. Maestro nao tem scheduler.
+5. **Framework agnostic** - MC suporta CrewAI/LangGraph/AutoGen. Maestro so Claude Code (+ auto-discover limitado).
+
+**Vantagens do Maestro vs Mission Control:**
+1. **UX de criacao** - Wizard visual 5-step >> MC nao tem wizard
+2. **Canvas interativo** - React Flow >> MC usa cards/lists
+3. **Visual feedback** - Markdown, thinking, animations >> MC e mais utilitario
+4. **Onboarding** - Welcome + templates >> MC assume usuario expert
+| Canvas visualization | Nao | React Flow | Maestro + |
