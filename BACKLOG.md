@@ -106,13 +106,12 @@
 ### P0 - Critico: UX de Criacao de Agentes e Times
 > O form atual na sidebar e apertado, pouco visual, e nao escala. Precisa ser repensado completamente.
 
-- [ ] **Team Creation Wizard (Modal/Page)** - Substituir form inline da sidebar por modal full-screen ou pagina dedicada:
-  - Step 1: Escolher template ou "from scratch" (cards visuais grandes, nao chips)
-  - Step 2: Configurar agentes (drag-and-drop, cards com avatar/role/model/provider)
+- [x] **Team Creation Wizard (Modal/Page)** - Modal multi-step 5-step substituindo form inline:
+  - Step 1: Escolher template ou "from scratch" (cards visuais grandes com preview de agentes)
+  - Step 2: Configurar agentes (cards com avatar/role/model/provider, reorder, system prompt, role suggestions)
   - Step 3: Definir tarefa (prompt area grande com sugestoes contextuais)
-  - Step 4: Guardrails (budget, timeout, approval gates)
-  - Step 5: Review e lancar
-  - Inspiracao: Lovable onboarding, Google AI Studio agent builder, Atoms.dev team setup
+  - Step 4: Guardrails (budget, timeout, approval gates HITL, execution mode parallel/sequential/graph)
+  - Step 5: Review com edit-in-place e navegacao rapida para steps anteriores
 
 - [ ] **Agent Builder visual** - Criar/editar agentes individuais com:
   - Avatar picker (emoji ou upload)
