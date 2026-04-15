@@ -1,6 +1,6 @@
 # Maestro - Backlog Completo
 
-> Atualizado: 2026-04-13 | Versao: v0.4 | 22 Sprints executados | 40+ features
+> Atualizado: 2026-04-15 | Versao: v0.5 | 22 Sprints executados | 40+ features
 
 ## Implementado
 
@@ -61,6 +61,47 @@
 ---
 
 ## Backlog (Priorizado)
+
+### P0.5 - Diferenciação Estratégica vs Claude Code Desktop
+> **Contexto:** Em 14/abr/2026, Anthropic lançou redesign completo do Claude Code Desktop + Routines.
+> O Claude Code Desktop entrou no mesmo espaço do Maestro: multi-sessão, session manager, terminal integrado, preview pane.
+> O moat do Maestro agora depende do que o Claude Code Desktop *não faz*: agentes que se comunicam entre si.
+
+- [ ] **"Multi-agente, não multi-sessão" — reforçar P2P na UI**
+  - Tagline visual no header: *"Agentes que colaboram, não só correm em paralelo"*
+  - Indicador explícito de mensagens P2P no canvas (badge de contagem + highlight)
+  - Tooltip nos nodes explicando a diferença: sessões isoladas vs. time orquestrado
+  - Referência: Claude Code Desktop roda N Claudes isolados — Maestro faz agentes *conversarem*
+
+- [ ] **Routines equivalente (scheduled tasks com cron)**
+  - Agendar execução de times sem laptop aberto
+  - Scheduled / Webhook (GitHub PR events) / API endpoint
+  - Limites configuráveis por tier (igual ao modelo Anthropic)
+  - *Já estava no P1 — promover para P0.5 dado o lançamento do concorrente*
+
+- [ ] **Session Management estilo Claude Code Desktop (evoluído)**
+  - Filtros na sidebar: por status (running/waiting/done), por projeto, por provider
+  - Auto-archive quando team conclui tarefa
+  - Group por projeto (para quem tem muitos teams)
+  - *Maestro já tem base — evoluir para paridade e depois superar*
+
+- [ ] **Cost Dashboard comparativo**
+  - Claude Code Desktop não expõe custo por sessão
+  - Maestro deve destacar isso: custo por agente, por team, por tarefa, trend histórico
+  - Recharts com breakdown model×tokens×USD (inspirado Mission Control)
+  - ROI estimado por tarefa concluída
+
+- [ ] **Provider-agnostic roadmap (moat de longo prazo)**
+  - Maestro orquestra Claude Code, Codex, Gemini CLI, modelos locais (Ollama/MLX)
+  - Claude Code Desktop só roda Claude
+  - UI de provider discovery: auto-detect instalados, status, capabilities
+  - *Já estava no P0 como "Provider discovery UI" — ligar explicitamente à estratégia*
+
+**Posicionamento resultante:**
+> Claude Code Desktop = IDE agentic para dev solo
+> Maestro = Command center para times de agentes multi-provider com comunicação real
+
+---
 
 ### P0 - Critico: UX de Criacao de Agentes e Times
 > O form atual na sidebar e apertado, pouco visual, e nao escala. Precisa ser repensado completamente.
