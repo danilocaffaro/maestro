@@ -103,6 +103,57 @@
 
 ---
 
+### P0 - Critico: Agent Canvas "WOW" — Visualizacao Cinematica
+> O canvas atual (React Flow simples com cards planos) e funcional mas invisivel. Dois boxes conectados por uma linha nao comunica a magnitude do que esta acontecendo. Quando um agente esta pensando, gerando codigo, ou mandando mensagem para outro — o usuario precisa **sentir** isso.
+> Referencia de ambicao: o que Cursor fez com o diff viewer, o que Vercel fez com o deploy log — algo que faz o usuario parar e falar "cara, que legal".
+
+- [ ] **Nodes cinematicos com estado visual rico**
+  - Avatar do agente com **glow pulsante colorido por estado**: azul=pensando, verde=executando, laranja=aguardando, vermelho=erro, cinza=concluido
+  - **Anel de progresso** girando ao redor do avatar enquanto o agente processa (CSS conic-gradient ou SVG stroke-dasharray animado)
+  - Preview ao vivo do que o agente esta fazendo: ultima linha de output dentro do card (truncada, animada como typewriter)
+  - Badge de ferramenta ativa: quando o agente roda bash/write/read, aparece um chip animado no canto do card (`🔧 Bash`, `✏️ Write`)
+  - Custo em tempo real: contador USD que incrementa visualmente enquanto o agente trabalha
+  - Framer Motion: entrada/saida suave dos nodes (scale+fade, spring physics)
+
+- [ ] **Edges cinematicas com fluxo de dados visiveis**
+  - P2P messages: partícula/bolha viaja ao longo da edge de origem para destino (SVG animado ou CSS offset-path)
+  - Espessura da edge proporcional ao volume de mensagens trocadas
+  - Edge pulsa brevemente em verde ao entregar mensagem, fica laranja em idle
+  - Label flutuante na edge mostra preview da ultima mensagem P2P (fade in/out)
+  - Seta direcional clara: quem esta falando com quem, sentido do fluxo
+
+- [ ] **Canvas com profundidade e contexto**
+  - Background: grid sutil animado ou particulas flutuando (Three.js lite ou CSS puro) — como Vercel dashboard
+  - **Zoom semantico**: zoom out mostra apenas status icons + nome; zoom in revela preview de output
+  - Highlight de foco: quando usuario clica num agente, os outros escurecem (backdrop blur nos nodes nao-focados)
+  - Sombra e elevacao: agente ativo tem z-index visual maior (shadow mais intensa, scale ligeiramente maior)
+  - "Team pulse": quando todos os agentes estao ativos simultaneamente, o canvas inteiro tem um glow sutil de fundo
+
+- [ ] **Timeline de eventos integrada ao canvas (micro-history)**
+  - Linha do tempo no eixo X abaixo de cada node: bolhas de eventos passados (pensamento, tool call, P2P)
+  - Hover sobre bolha: tooltip com preview do evento
+  - Conecta visualmente o que aparece na timeline principal com o agente que gerou
+
+- [ ] **Modo "Diretor" (fullscreen canvas)**
+  - Tecla `F` ou botao dedicado: expande canvas para fullscreen, esconde sidebar
+  - Ideal para apresentacoes, demos ao vivo, acompanhamento de runs longas
+  - Fonte maior, animacoes mais dramaticas, modo "cinema"
+
+**Stack sugerida:**
+- Framer Motion (ja instalado) para todos os micro-animations dos nodes
+- SVG animado nativo para particle flow nas edges
+- CSS `@keyframes` + `conic-gradient` para progress rings
+- React Flow custom nodes (substituir o node default completamente)
+- `useSyncExternalStore` para streaming de estado em tempo real sem re-render excessivo
+
+**Referencia visual:**
+- Vercel deployment log (progresso em tempo real, muito clean)
+- Linear issue board (micro-animations nos status changes)
+- Retool agent canvas (node cards ricos)
+- Atoms.dev live preview (agentes com feedback visual imediato)
+
+---
+
 ### P0 - Critico: UX de Criacao de Agentes e Times
 > O form atual na sidebar e apertado, pouco visual, e nao escala. Precisa ser repensado completamente.
 
